@@ -115,10 +115,6 @@ def try_parse_coords(coords):
     if 0 <= int(xy[0]) < GRID_WIDTH and 0 <= int(xy[1]) < GRID_HEIGHT:
       return (int(xy[0]), int(xy[1]))
 
-def parse_coords(coords):
-  
-  return (int(xy[0]), int(xy[1]))
-
 class Rect:
   def __init__(self, rect, is_border):
     self.rect = rect
