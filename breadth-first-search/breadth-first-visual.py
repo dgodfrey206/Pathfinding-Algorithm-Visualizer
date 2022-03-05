@@ -51,7 +51,7 @@ clock = pygame.time.Clock()
 input_box_src_text = LEGEND_FONT.render('Enter a start coordinate', 1, WHITE)
 input_box_dest_text = LEGEND_FONT.render('Enter a destination coordinate', 1, WHITE)
 
-border_note_text = LEGEND_FONT.render('Hold the CTRL key while while dragging to add borders', 1, WHITE)
+border_note_text = LEGEND_FONT.render('Click and drag to add borders', 1, WHITE)
 
 def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, frontier, parent):
   WIN.fill(BACKGROUND_RGB)
@@ -95,7 +95,7 @@ def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, f
   pygame.display.update()
 
 def get_neighbors(grid, node):
-  dxy = [(-1, 0), (0, 1), (1, 0), (0, -1)] # each pair represents a change in the (x,y) coordinate
+  dxy = [(-1, 0), (0, 1), (1, 0), (0, -1), (-1, -1), (-1, 1), (1, 1), (1, -1)] # each pair represents a change in the (x,y) coordinate
   valid_neighbors = []
   for p in dxy:
     if 0 <= node[0] + p[0] < GRID_WIDTH and 0 <= node[1] + p[1] < GRID_HEIGHT and not grid[node[0] + p[0]][node[1] + p[1]].is_border:
@@ -170,12 +170,11 @@ def main():
   while run:
     clock.tick(FPS)
     pos = pygame.mouse.get_pos()
-    pressed = pygame.key.get_pressed()
-
-    for i, row in enumerate(grid):
-      for j, elem in enumerate(row):
-        if is_mouse_hovering(elem.rect, pos) and pressed[pygame.K_LCTRL]:
-          elem.is_border = True
+    if (pygame.mouse.get_pressed()[0]):
+      for i, row in enumerate(grid):
+        for j, elem in enumerate(row):
+          if is_mouse_hovering(elem.rect, pos):
+            elem.is_border = True
 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -183,6 +182,11 @@ def main():
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:
           run = False
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        for i, row in enumerate(grid):
+          for j, elem in enumerate(row):
+            if is_mouse_hovering(elem.rect, pos):
+              elem.is_border = True
       
       if event.type == dest_input_box.RETURN_HIT:
         if src_input_box.active:
@@ -221,7 +225,7 @@ def main():
           parent[neighbor] = node
     
     pygame.display.update()
-    pygame.time.delay(150)
+    pygame.time.delay(int(150 * 1.5))
     draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, frontier, parent)
     
 
