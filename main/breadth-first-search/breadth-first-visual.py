@@ -3,6 +3,8 @@ import random
 import pdb
 import os
 import re
+import sys
+
 from InputBox import InputBox
 try:
    import queue
@@ -211,7 +213,7 @@ def main():
       node = frontier.pop(0)
       if node == goal_node:
         found = True
-        continue;
+        continue
       pygame.draw.rect(WIN, YELLOW, grid[node[0]][node[1]].rect)
       for neighbor in get_neighbors(grid, node):
         n = grid[neighbor[0]][neighbor[1]]

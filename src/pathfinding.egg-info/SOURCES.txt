@@ -1,0 +1,4 @@
+pathfinding.egg-info/PKG-INFO
+pathfinding.egg-info/SOURCES.txt
+pathfinding.egg-info/dependency_links.txt
+pathfinding.egg-info/top_level.txt

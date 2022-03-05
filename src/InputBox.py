@@ -40,7 +40,7 @@ class InputBox:
                 else:
                     if self.first_key_event:
                         self.text = event.unicode
-                        first_key_event = False
+                        self.first_key_event = False
                     else:
                         self.text += event.unicode
                 # Re-render the text.
