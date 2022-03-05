@@ -52,7 +52,7 @@ input_box_src_text = LEGEND_FONT.render('Enter a start coordinate', 1, WHITE)
 input_box_dest_text = LEGEND_FONT.render('Enter a destination coordinate', 1, WHITE)
 
 border_note_text = LEGEND_FONT.render('Click and drag to add borders', 1, WHITE)
-
+  
 def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, frontier, parent):
   WIN.fill(BACKGROUND_RGB)
   for i, row in enumerate(grid):
@@ -110,7 +110,7 @@ def draw_path(grid, goal, parent):
 
 def try_parse_coords(coords):
   if re.search("^\s*\(?\d{1,2}\s*,\s*\d{1,2}\)?\s*$", coords):
-    coords = coords.strip('() ').replace('.', ',');
+    coords = coords.strip('() ').replace('.', ',')
     xy = coords.split(',')
     if 0 <= int(xy[0]) < GRID_WIDTH and 0 <= int(xy[1]) < GRID_HEIGHT:
       return (int(xy[0]), int(xy[1]))
