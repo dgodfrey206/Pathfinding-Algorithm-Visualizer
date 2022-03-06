@@ -2,15 +2,16 @@ import pygame as pg
 import pdb
 
 pg.init()
-COLOR_INACTIVE = pg.Color('lightskyblue3')
-COLOR_ACTIVE = pg.Color('dodgerblue2')
+
 FONT = pg.font.Font(None, 32)
 
 class InputBox:
 
     def __init__(self, x, y, w, h, text=''):
+        self.COLOR_INACTIVE = pg.Color('lightskyblue3')
+        self.COLOR_ACTIVE = pg.Color('dodgerblue2')
         self.rect = pg.Rect(x, y, w, h)
-        self.color = COLOR_INACTIVE
+        self.color = self.COLOR_INACTIVE
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
@@ -26,7 +27,8 @@ class InputBox:
             else:
                 self.active = False
             # Change the current color of the input box.
-            self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
+            self.color = self.COLOR_ACTIVE if self.active else self.COLOR_INACTIVE
+            self.txt_surface = FONT.render(self.text, True, self.color)
         if event.type == pg.KEYDOWN:
             if self.active:
                 if event.key == pg.K_RETURN:
