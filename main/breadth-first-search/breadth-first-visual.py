@@ -11,7 +11,6 @@ try:
 except ImportError:
    import Queue as queue
 
-pygame.font.init()
 pygame.init()
 
 WIDTH, HEIGHT = 900, 500

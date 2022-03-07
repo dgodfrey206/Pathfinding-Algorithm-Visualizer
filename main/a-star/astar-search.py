@@ -242,6 +242,7 @@ def main():
         print came_from[index_to_str(cur[1])]
         found = True
         continue
+      
       for next in get_neighbors(cur[1]):
         new_cost = cost_from_start[index_to_str(cur[1])] + 1
         if index_to_str(next) not in cost_from_start or new_cost < cost_from_start[index_to_str(next)]:

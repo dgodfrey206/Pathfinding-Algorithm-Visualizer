@@ -73,6 +73,7 @@ def get_borders():
 def draw_window(unvisited, current_node, came_from,
                 starting_node, goal_node, src_box, dest_box, goal_path=[]):
   window.fill(BACKGROUND_RGB)
+  
   #draw grid, start/end node, legend for border
   
   y = 10 # starting y-coordinate

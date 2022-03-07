@@ -29,6 +29,7 @@ class InputBox:
             # Change the current color of the input box.
             self.color = self.COLOR_ACTIVE if self.active else self.COLOR_INACTIVE
             self.txt_surface = FONT.render(self.text, True, self.color)
+            
         if event.type == pg.KEYDOWN:
             if self.active:
                 if event.key == pg.K_RETURN:
