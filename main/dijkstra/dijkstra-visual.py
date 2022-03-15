@@ -86,10 +86,11 @@ def draw_window(unvisited, current_node, came_from,
       a = [i,j]
       if a == current_node:
         color = YELLOW
-      elif a == starting_node or a == goal_node:
-        color = VIOLET
       elif a in goal_path:
         color = PURPLE
+      elif a == starting_node or a == goal_node:
+        print a, starting_node, goal_node
+        color = VIOLET
       elif a in get_borders():
         color = WHITE
       elif a in get_neighbors(current_node):

@@ -96,7 +96,7 @@ def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, f
   pygame.display.update()
 
 def get_neighbors(grid, node):
-  dxy = [(-1, 0), (0, 1), (1, 0), (0, -1), (-1, -1), (-1, 1), (1, 1), (1, -1)] # each pair represents a change in the (x,y) coordinate
+  dxy = [(-1, 0), (0, 1), (1, 0), (0, -1)]#, (-1, -1), (-1, 1), (1, 1), (1, -1)] # each pair represents a change in the (x,y) coordinate
   valid_neighbors = []
   for p in dxy:
     if 0 <= node[0] + p[0] < GRID_WIDTH and 0 <= node[1] + p[1] < GRID_HEIGHT and not grid[node[0] + p[0]][node[1] + p[1]].is_border:
