@@ -7,11 +7,9 @@ These projects use [Pygame](https://web.archive.org/web/20220223214213/https://w
 
     pip install pygame
     git clone https://github.com/dgodfrey95/path-finding-visual.git
-<<<<<<< HEAD
+
     cd *algorithm_directory*
     python *algorithm.py*
-=======
-    pip install -e src/
     
 # Overview
 
