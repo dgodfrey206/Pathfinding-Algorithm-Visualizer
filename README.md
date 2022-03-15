@@ -24,4 +24,3 @@ This could be made to be more object oriented. Organizing the data into their ow
 By implementing these algorithms and illustrating them I have a deeper understanding of how they work as well as their possible applications. Graph theory has become more accessible to me through doing these projects.
 
 This was also my first introduction to Pygame. I was very impressed by how easy it was to get used to.
->>>>>>> 1d64c627c54e33fdba36d3b25fd55296328fb3d3
