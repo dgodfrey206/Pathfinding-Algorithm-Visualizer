@@ -11,15 +11,19 @@ try:
 except ImportError:
    import Queue as queue
 
+# Initialize PyGame
 pygame.init()
 
+# Screen and grid attributes
 WIDTH, HEIGHT = 900, 500
 GRID_WIDTH = 30
 GRID_HEIGHT = 30
 
+# Create window and set title
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Breadth First Search Visualization ({}x{})".format(GRID_WIDTH, GRID_HEIGHT))
 
+# RGB colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -35,11 +39,13 @@ FPS = 60
 
 SQUARE_WIDTH, SQUARE_HEIGHT = 10, 10
 
+# Random x-y positions (can be overwritten by user)
 start_x, start_y = random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1)
 goal_x, goal_y = random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1)
 
 LEGEND_FONT = pygame.font.SysFont('comicsans', 20)
 
+# Text surrounding grid
 frontier_text = LEGEND_FONT.render('frontier', 1, WHITE)
 neighbor_text = LEGEND_FONT.render('neighbor(s)', 1, WHITE)
 current_text = LEGEND_FONT.render('current node', 1, WHITE)
@@ -54,6 +60,7 @@ input_box_dest_text = LEGEND_FONT.render('Enter a destination coordinate', 1, WH
 
 border_note_text = LEGEND_FONT.render('Click and drag to add borders', 1, WHITE)
   
+# Blit all text and objects onto the window
 def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, frontier, parent):
   WIN.fill(BACKGROUND_RGB)
   for i, row in enumerate(grid):
@@ -95,14 +102,17 @@ def draw_window(grid, src_input_box, dest_input_box, starting_node, goal_node, f
      
   pygame.display.update()
 
+# Returns each neighbor of a node in an array
 def get_neighbors(grid, node):
   dxy = [(-1, 0), (0, 1), (1, 0), (0, -1)]#, (-1, -1), (-1, 1), (1, 1), (1, -1)] # each pair represents a change in the (x,y) coordinate
   valid_neighbors = []
   for p in dxy:
+    # neighbor must be in range and not be a wall (border)
     if 0 <= node[0] + p[0] < GRID_WIDTH and 0 <= node[1] + p[1] < GRID_HEIGHT and not grid[node[0] + p[0]][node[1] + p[1]].is_border:
       valid_neighbors.append((node[0] + p[0], node[1] + p[1]))
   return valid_neighbors
 
+# Draws the path from finish to start
 def draw_path(grid, goal, parent):
   while goal != None:
     pygame.draw.rect(WIN, PURPLE, grid[goal[0]][goal[1]].rect)
@@ -121,6 +131,7 @@ class Rect:
     self.rect = rect
     self.is_border = is_border
 
+# Returns if mouse is hovering over grid cell
 def is_mouse_hovering(square, pos):
   x_len = SQUARE_WIDTH
   y_len = SQUARE_HEIGHT
@@ -144,8 +155,8 @@ def main():
   
   run = True
 
-  starting_node = (start_x, start_y)
-  goal_node = (goal_x, goal_y)
+  starting_node = (start_x, start_y) # random start position
+  goal_node = (goal_x, goal_y) # random start position
 
   frontier = [starting_node]
   parent = {}
@@ -162,39 +173,43 @@ def main():
       row.append(Rect(pygame.Rect((x, y), (SQUARE_WIDTH, SQUARE_HEIGHT)), False))
       x += 15 # add 15 pixels to keep squares spaced out
     grid.append(row)
-    y += 15
+    y += 15 # add 15 pixels to keep squares spaced out
 
   while run:
     clock.tick(FPS)
     pos = pygame.mouse.get_pos()
+    # Logic to detech adding a wall (border) on the grid
     if (pygame.mouse.get_pressed()[0]):
       for i, row in enumerate(grid):
         for j, elem in enumerate(row):
           if is_mouse_hovering(elem.rect, pos):
             elem.is_border = True
 
+    # Quit events
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         run = False
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:
           run = False
+      # Logic to detech adding a wall (border) on the grid
       if event.type == pygame.MOUSEBUTTONDOWN:
         for i, row in enumerate(grid):
           for j, elem in enumerate(row):
             if is_mouse_hovering(elem.rect, pos):
               elem.is_border = True
       
+      # Our input box emits an event when the return key is hit
       if event.type == dest_input_box.RETURN_HIT:
         if src_input_box.active:
           if try_parse_coords(src_input_box.text):
-            (start_x, start_y) = try_parse_coords(src_input_box.text)
-            main()
+            (start_x, start_y) = try_parse_coords(src_input_box.text) # Parse coords and place them into the new goal position, then reset game
+            main() # Should be replaced with a reset method
             return
         elif dest_input_box.active:
           if try_parse_coords(dest_input_box.text):
-            (goal_x, goal_y) = try_parse_coords(dest_input_box.text)
-            main()
+            (goal_x, goal_y) = try_parse_coords(dest_input_box.text) # Parse coords and place them into the new goal position, then reset game
+            main() # Should be replaced with a reset method
             return
 
       src_input_box.handle_event(event)
@@ -206,14 +221,18 @@ def main():
     src_input_box.update()
     dest_input_box.update()
 
+    # Each iteration of the game loop is another step in the algorith, if found, draw and quit
     if found:
       draw_path(grid, goal_node, parent)
+    # Continue algorithm
     elif frontier:
       node = frontier.pop(0)
       if node == goal_node:
         found = True
         continue
+      # Draw the grid cell in this position
       pygame.draw.rect(WIN, YELLOW, grid[node[0]][node[1]].rect)
+      # Go through each neighbor and add to the queue
       for neighbor in get_neighbors(grid, node):
         n = grid[neighbor[0]][neighbor[1]]
         pygame.draw.rect(WIN, RED, n.rect)
