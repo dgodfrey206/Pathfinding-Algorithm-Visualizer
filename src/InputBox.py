@@ -1,12 +1,13 @@
 import pygame as pg
 import pdb
 
+# Initialize pygame
 pg.init()
 
 FONT = pg.font.Font(None, 32)
 
 class InputBox:
-
+    # InputBox will be initialized with a position, and width and height, and the placeholder text (empty by default)
     def __init__(self, x, y, w, h, text=''):
         self.COLOR_INACTIVE = pg.Color('lightskyblue3')
         self.COLOR_ACTIVE = pg.Color('dodgerblue2')
@@ -15,6 +16,7 @@ class InputBox:
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
+        # first_key_event tells us when to remove the placeholder text
         self.first_key_event = True
         self.RETURN_HIT = pg.USEREVENT + 1
 
@@ -33,14 +35,17 @@ class InputBox:
         if event.type == pg.KEYDOWN:
             if self.active:
                 if event.key == pg.K_RETURN:
+                    # post event so the user can retrieve input
                     pg.event.post(pg.event.Event(self.RETURN_HIT))
                 elif event.key == pg.K_BACKSPACE:
+                    # remove placeholder text
                     if self.first_key_event:
                         self.text = ''
                         self.first_key_event = False
                     else:
                         self.text = self.text[:-1]
                 else:
+                    # the user is typing a character. Place character into text.
                     if self.first_key_event:
                         self.text = event.unicode
                         self.first_key_event = False
