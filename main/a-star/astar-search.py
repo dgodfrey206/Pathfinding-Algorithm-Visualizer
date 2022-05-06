@@ -4,6 +4,9 @@ import random
 import pdb
 import os
 import re
+import sys
+
+sys.path.append('../../src')
 from InputBox import InputBox
 try:
    import queue
